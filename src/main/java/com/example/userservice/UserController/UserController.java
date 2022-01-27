@@ -1,5 +1,7 @@
 package com.example.userservice.UserController;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,8 +10,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class UserController {
 
+    private Environment env;
+
+    @Autowired
+    public UserController(Environment env) {
+        this.env = env;
+    }
+
+    @GetMapping(value = "welcome")
+    public String getWelcom(){
+
+        return env.getProperty("greeting.message");
+    }
+
+
     @GetMapping("/health_check")
     public String status(){
         return "It's Working in user Service";
     }
+
+
 }
